@@ -53,7 +53,7 @@ object sorting
 			merge(mergeSort(lhs), mergeSort(rhs))
 		}
 	}
-	
+
 	def merge[T](lhs: List[T], rhs: List[T])(implicit ord:Ordering[T]): List[T] =
 	{
 		(lhs, rhs) match
