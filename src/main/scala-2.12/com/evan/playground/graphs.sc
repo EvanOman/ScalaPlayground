@@ -7,28 +7,23 @@ val lines = List(List("i1", "i2", "i5"),
 /* finds all sequential pairs */
 val pairs =  lines.flatMap(x => x.dropRight(1).zip(x.drop(1)))
 
-/* each pair should be symmetric (we are in an undirected graph) */
-val pSym = pairs.flatMap(x => List(x, x.swap))
-
 /* create an empty adjacency map: id -> (List of adjacent edges) */
-val vertices = lines.flatten.distinct
-val defMap = vertices.map(_ -> List[String]()).toMap
+val defMap = Map[String, Set[String]]().withDefaultValue(Set[String]())
 
-/* populate the default map with the actual adjacencies */
-val adjMap = pSym.foldLeft{defMap}(
-	(acc, x) => acc + (x._1 -> (acc(x._1) :+ x._2))
-)
+/* populate the default map with the actual (symmetric) adjacencies */
+val adjMap = pairs.foldLeft{defMap}(
+	(acc, x) => acc + (x._1 -> (acc(x._1) + x._2)) + (x._2 -> (acc(x._2) + x._1)))
 
 /* BFS algo on map representation of graph */
-def mapBFS(adjMap: Map[String, List[String]]): List[List[String]] =
+def mapBFS(adjMap: Map[String, Set[String]]): List[List[String]] =
 {
 	val v = adjMap.keys
 	var globalVisits = List[String]()
-	def BFS_r(elems: List[String], visited: List[List[String]]): Option[List[List[String]]] =
+	def BFS_r(elems: List[String], visited: List[List[String]]): List[String] =
 	{
 		val newNeighbors = elems.flatMap(adjMap(_)).filterNot(visited.flatten.contains).distinct
 		if (newNeighbors.isEmpty)
-			Some(visited)
+			visited.flatten
 		else
 			BFS_r(newNeighbors, newNeighbors :: visited)
 	}
@@ -37,12 +32,10 @@ def mapBFS(adjMap: Map[String, List[String]]): List[List[String]] =
 			None
 		else
 		{
-			val vi: List[String] = BFS_r(List(x), List(List(x))).get.flatten
+			val vi: List[String] = BFS_r(List(x), List(List(x)))
 			globalVisits = globalVisits ++ vi
 			Some(vi)
 		}
 	}).toList
 }
-
 mapBFS(adjMap).foreach{println}
-
