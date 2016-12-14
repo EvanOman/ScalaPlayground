@@ -1,9 +1,7 @@
 /* Input, can be read from file easily by splitting on ", " */
-val lines = List(List("i1", "i2", "i5"),
-	List("i3", "i4"),
-	List("i2", "i6", "i7"),
-	List("i4", "i8"),
-	List("i9", "i3"))
+val lines = List(List("i2", "i4"),
+		List("i3", "i4"),
+		List("i1", "i4"))
 /* finds all sequential pairs */
 val pairs =  lines.flatMap(x => x.dropRight(1).zip(x.drop(1)))
 

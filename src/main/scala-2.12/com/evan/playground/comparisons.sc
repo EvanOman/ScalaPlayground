@@ -16,7 +16,7 @@ def randStr: String = {
 val a = (0 to 10000).par.map(x => {
 	val r1 = randStr
 	val r2 = randStr
-	if (!strLt(r1, r2) == (r1 < r2))
+	if (!(strLt(r1, r2) == (r1 < r2)))
 		(r1, r2)
 	else
 		("", "")
