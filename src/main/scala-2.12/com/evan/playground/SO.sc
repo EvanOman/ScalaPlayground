@@ -1,9 +1,9 @@
 class Super(val name: String, val x: String)
 {
 	def identify = println("This is a Test_1 with properties" +
-		s"\n\tName: ${this.name}\n\tData: ${this.x}")
+			s"\n\tName: ${this.name}\n\tData: ${this.x}")
 
-	def updateX[T <: Super](newX: String): T = new T(name, newX)
+	def updateX(newX: String): Super = new Super(name, newX)
 }
 
 class Sub_1(name: String, x: String) extends Super(name, x)
@@ -20,5 +20,5 @@ class Sub_2(name: String, x: String) extends Super(name, x)
 
 val s1 = new Sub_1("sub1", "original data")
 s1.identify
-
-val s2: Sub_1 = s1.updateX("new data")
+def updateSubX[T <: Super](orig: T, newX: String): T = new T(orig.name, newX)
+val s2 = updateSubX(s1, "new data")
