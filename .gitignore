@@ -146,3 +146,9 @@ project/plugins/project/
 .scala_dependencies
 .worksheet
 
+#### joe made this: http://goel.io/joe
+
+#####=== IPythonNotebook ===#####
+# Temporary data
+.ipynb_checkpoints/
+
